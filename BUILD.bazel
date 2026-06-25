@@ -1,0 +1,11 @@
+load("@rules_java//java:defs.bzl", "java_binary")
+
+package(default_visibility = ["//visibility:public"])
+
+java_binary(
+    name = "saxon_he_cli",
+    main_class = "net.sf.saxon.Transform",
+    runtime_deps = [
+        "@saxon_maven//:net_sf_saxon_Saxon_HE",
+    ],
+)

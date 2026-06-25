@@ -1,0 +1,52 @@
+load("@rules_python//python:defs.bzl", "py_test")
+load("//tests/rules:saxon_transform_test.bzl", "saxon_toolchain_probe_test", "saxon_transform")
+
+package(default_visibility = ["//visibility:private"])
+
+saxon_toolchain_probe_test(
+    name = "saxon_toolchain_provider_test",
+    target_under_test = "//toolchain:saxon_he_toolchain_impl",
+)
+
+py_test(
+    name = "saxon_cli_smoke_test",
+    srcs = ["scripts/assert_saxon_cli.py"],
+    args = ["$(location //:saxon_he_cli)"],
+    data = ["//:saxon_he_cli"],
+    main = "scripts/assert_saxon_cli.py",
+    python_version = "PY3",
+)
+
+saxon_transform(
+    name = "saxon_transform_smoke_output",
+    src = "fixtures/input.xml",
+    out = "saxon-transform-smoke.xml",
+    params = {
+        "suffix": " from Saxon",
+    },
+    stylesheet = "fixtures/identity-ish.xsl",
+)
+
+py_test(
+    name = "saxon_transform_smoke_test",
+    srcs = ["scripts/assert_file_equals.py"],
+    args = [
+        "$(location :saxon_transform_smoke_output)",
+        "$(location fixtures/expected.xml)",
+    ],
+    data = [
+        "fixtures/expected.xml",
+        ":saxon_transform_smoke_output",
+    ],
+    main = "scripts/assert_file_equals.py",
+    python_version = "PY3",
+)
+
+test_suite(
+    name = "all",
+    tests = [
+        ":saxon_cli_smoke_test",
+        ":saxon_toolchain_provider_test",
+        ":saxon_transform_smoke_test",
+    ],
+)

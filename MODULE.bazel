@@ -1,0 +1,23 @@
+module(
+    name = "saxon_he",
+    version = "0.1.0",
+)
+
+bazel_dep(name = "bazel_skylib", version = "1.9.0")
+bazel_dep(name = "rules_java", version = "9.6.1")
+bazel_dep(name = "rules_jvm_external", version = "7.0")
+bazel_dep(name = "rules_python", version = "2.1.0-rc0")
+
+maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
+maven.install(
+    name = "saxon_maven",
+    artifacts = [
+        "net.sf.saxon:Saxon-HE:12.9",
+    ],
+    repositories = [
+        "https://repo1.maven.org/maven2",
+    ],
+)
+use_repo(maven, "saxon_maven")
+
+register_toolchains("//toolchain:saxon_he_toolchain")
