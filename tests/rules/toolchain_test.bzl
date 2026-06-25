@@ -8,7 +8,11 @@ def _saxon_toolchain_probe_impl(ctx):
     toolchain = target[platform_common.ToolchainInfo].saxon
 
     asserts.equals(env, "12.9", toolchain.version)
-    asserts.true(env, toolchain.files_to_run.executable != None, "Expected Saxon executable in toolchain")
+    asserts.true(
+        env,
+        toolchain.files_to_run.executable != None,
+        "Expected Saxon executable in toolchain",
+    )
 
     return analysistest.end(env)
 

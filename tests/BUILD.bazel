@@ -1,5 +1,5 @@
 load("@rules_python//python:defs.bzl", "py_test")
-load("//:defs.bzl", "xslt_transform")
+load("//:defs.bzl", "xml_validate", "xslt_transform")
 load("//tests/rules:toolchain_test.bzl", "saxon_toolchain_probe_test")
 
 package(default_visibility = ["//visibility:private"])
@@ -43,11 +43,44 @@ py_test(
     python_version = "PY3",
 )
 
+xml_validate(
+    name = "xml_validate_with_include",
+    src = "fixtures/messages.xml",
+    schema = "fixtures/messages.xsd",
+    schema_deps = ["fixtures/greeting.xsd"],
+)
+
+xslt_transform(
+    name = "saxon_validated_transform_output",
+    src = "fixtures/messages.xml",
+    out = "saxon-validated-transform.xml",
+    input_schema = "fixtures/messages.xsd",
+    input_schema_deps = ["fixtures/greeting.xsd"],
+    output_schema = "fixtures/greeting.xsd",
+    stylesheet = "fixtures/message-to-greeting.xsl",
+)
+
+py_test(
+    name = "saxon_xml_validation_test",
+    srcs = ["scripts/assert_exists.py"],
+    args = [
+        "$(location :xml_validate_with_include)",
+        "$(location :saxon_validated_transform_output)",
+    ],
+    data = [
+        ":saxon_validated_transform_output",
+        ":xml_validate_with_include",
+    ],
+    main = "scripts/assert_exists.py",
+    python_version = "PY3",
+)
+
 test_suite(
     name = "all",
     tests = [
         ":saxon_cli_smoke_test",
         ":saxon_toolchain_provider_test",
         ":saxon_transform_smoke_test",
+        ":saxon_xml_validation_test",
     ],
 )

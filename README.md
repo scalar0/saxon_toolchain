@@ -17,7 +17,7 @@ Saxon-HE is pinned to Maven coordinate `net.sf.saxon:Saxon-HE:12.9` through the 
 
 ## Validation
 
-From the DCSE root module:
+From the root module:
 
 ```bash
 bazel test @saxon_toolchain//tests:all

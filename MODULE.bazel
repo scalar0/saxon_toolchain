@@ -7,6 +7,7 @@ bazel_dep(name = "bazel_skylib", version = "1.9.0")
 bazel_dep(name = "rules_java", version = "9.6.1")
 bazel_dep(name = "rules_jvm_external", version = "7.0")
 bazel_dep(name = "rules_python", version = "2.1.0-rc0")
+bazel_dep(name = "libxml2", version = "2.15.3")
 
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 maven.install(

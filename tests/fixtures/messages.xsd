@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:include schemaLocation="greeting.xsd" />
+  <xsd:element name="messages">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="greeting" />
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>
