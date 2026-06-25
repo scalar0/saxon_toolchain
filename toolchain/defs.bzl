@@ -1,26 +1,26 @@
-"""Toolchain definitions for running Saxon-HE under Bazel."""
+"""Toolchain definitions for running Saxon under Bazel."""
 
-load("//:providers.bzl", "SaxonHeToolchainInfo")
+load("//:providers.bzl", "SaxonToolchainInfo")
 
-def _saxon_he_toolchain_impl(ctx):
+def _saxon_toolchain_impl(ctx):
     return [
         platform_common.ToolchainInfo(
-            saxon_he = SaxonHeToolchainInfo(
+            saxon = SaxonToolchainInfo(
                 files_to_run = ctx.attr.saxon[DefaultInfo].files_to_run,
                 version = ctx.attr.version,
             ),
         ),
     ]
 
-saxon_he_toolchain = rule(
-    implementation = _saxon_he_toolchain_impl,
-    doc = "Wraps a Saxon-HE executable target as a Bazel toolchain.",
+saxon_toolchain = rule(
+    implementation = _saxon_toolchain_impl,
+    doc = "Wraps a Saxon executable target as a Bazel toolchain.",
     attrs = {
         "saxon": attr.label(
-            default = Label("//:saxon_he_cli"),
+            default = Label("//:saxon_cli"),
             executable = True,
             cfg = "exec",
-            doc = "Executable Saxon-HE command-line target.",
+            doc = "Executable Saxon command-line target.",
         ),
         "version": attr.string(
             default = "12.9",

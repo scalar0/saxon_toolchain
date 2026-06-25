@@ -1,5 +1,5 @@
 module(
-    name = "saxon_he",
+    name = "saxon_toolchain",
     version = "0.1.0",
 )
 
@@ -20,4 +20,4 @@ maven.install(
 )
 use_repo(maven, "saxon_maven")
 
-register_toolchains("//toolchain:saxon_he_toolchain")
+register_toolchains("//toolchain:saxon_toolchain")

@@ -1,15 +1,15 @@
-load(":defs.bzl", "saxon_he_toolchain")
+load(":defs.bzl", "saxon_toolchain")
 
 package(default_visibility = ["//visibility:public"])
 
 toolchain_type(name = "toolchain_type")
 
-saxon_he_toolchain(
-    name = "saxon_he_toolchain_impl",
+saxon_toolchain(
+    name = "saxon_toolchain_impl",
 )
 
 toolchain(
-    name = "saxon_he_toolchain",
-    toolchain = ":saxon_he_toolchain_impl",
+    name = "saxon_toolchain",
+    toolchain = ":saxon_toolchain_impl",
     toolchain_type = ":toolchain_type",
 )
